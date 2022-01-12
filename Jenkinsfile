@@ -27,7 +27,7 @@ pipeline {
                    sh '''
                        docker stop $CONTAINER_NAME || true
                        docker rm $CONTAINER_NAME || true
-                       docker run --name $CONTAINER_NAME -d -e "ODOO_URL=http://URL1.com" -e "PGADMIN_URL=http://URL2.com" -p 80:80 $USERNAME/$IMAGE_NAME:$IMAGE_TAG
+                       docker run --name $CONTAINER_NAME -d -e "ODOO_URL=http://URL1.com" -e "PGADMIN_URL=http://URL2.com" -p 8888:80 $USERNAME/$IMAGE_NAME:$IMAGE_TAG
                        sleep 5
                    '''
                }
@@ -39,7 +39,7 @@ pipeline {
            steps {
                script{
                    sh '''
-                       curl http://localhost | grep -iq "Intranet  Applications"
+                       curl http://localhost:8888 | grep -iq "Intranet  Applications"
                    '''
                }
            }
