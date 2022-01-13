@@ -64,20 +64,20 @@ pipeline {
                }
            }
        }
-       stage('Deploy app on EC2-cloud preprod') {
-            agent any
-            steps{
-                withCredentials([sshUserPrivateKey(credentialsId: "	SSHCredentials", keyFileVariable: 'keyfile', usernameVariable: 'NUSER')]) {
-                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                        script{ 
 
-                            sh'''
-                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${EC2_ADMIN_HOST} docker run --name $CONTAINER_NAME -d -e "ODOO_URL=http://${EC2_ODOO_HOST}:8069" -e "PGADMIN_URL=https://ipv4.monip.eu/" -p 80:80 $USERNAME/$IMAGE_NAME:$IMAGE_TAG
-                            '''
-                        }
-                    }
-                }
-            }
+       stage ('run ansible playbook') {
+           agent any
+           steps {
+               script{
+                   sh '''
+                       git clone https://github.com/Unklebens/deploy_ic_webapp.git
+                       ansible-galaxy install -r ./deploy_ic_webapp/role/requirements.yml --force
+                       ansible-playbook -i hosts.yml ic-webapp.yml
+                   '''
+               }
+           }
        }
+
+
     }
 }
