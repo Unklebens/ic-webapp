@@ -70,9 +70,7 @@ pipeline {
            steps {
                script{
                    sh '''
-                       git clone https://github.com/Unklebens/deploy_ic_webapp.git
-                       ansible-galaxy install -r ./deploy_ic_webapp/role/requirements.yml --force
-                       ansible-playbook -i hosts.yml ic-webapp.yml
+                       ansible --version
                    '''
                }
            }
