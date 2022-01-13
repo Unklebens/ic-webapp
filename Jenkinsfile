@@ -70,7 +70,7 @@ pipeline {
            steps {
                script{
                    sh '''
-                       ansible --version
+                       /usr/bin/ansible --version
                    '''
                }
            }
