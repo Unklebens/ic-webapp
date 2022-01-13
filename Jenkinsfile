@@ -73,7 +73,7 @@ pipeline {
                        rm -rf ./deploy_ic_webapp
                        git clone https://github.com/Unklebens/deploy_ic_webapp.git
                        ansible-galaxy install -r ./deploy_ic_webapp/role/requirements.yml --force
-                       ansible-playbook -i hosts.yml ic-webapp.yml
+                       ansible-playbook -i ./deploy_ic_webapp/hosts.yml ./deploy_ic_webapp/ic-webapp.yml
                    '''
                }
            }
