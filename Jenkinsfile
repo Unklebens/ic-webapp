@@ -5,6 +5,8 @@ pipeline {
         IMAGE_TAG = "1.0"
         USERNAME = "itirenegad"
         CONTAINER_NAME = "test-ic-webapp"
+        EC2_ADMIN_HOST = "52.91.186.73"
+        EC2_ODOO_HOST = "3.89.74.212"
     }
 
     agent none
@@ -61,6 +63,21 @@ pipeline {
                    '''
                }
            }
+       }
+       stage('Deploy app on EC2-cloud preprod') {
+            agent any
+            steps{
+                withCredentials([sshUserPrivateKey(credentialsId: "	SSHCredentials", keyFileVariable: 'keyfile', usernameVariable: 'NUSER')]) {
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                        script{ 
+
+                            sh'''
+                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${EC2_ADMIN_HOST} docker run --name $CONTAINER_NAME -d -e "ODOO_URL=http://${EC2_ODOO_HOST}:8069" -e "PGADMIN_URL=https://ipv4.monip.eu/" -p 80:80 $USERNAME/$IMAGE_NAME:$IMAGE_TAG
+                            '''
+                        }
+                    }
+                }
+            }
        }
     }
 }
