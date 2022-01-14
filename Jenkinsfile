@@ -137,7 +137,7 @@ pipeline {
                                 ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPADMIN} rm -rf deploy_ic_webapp || true
                                 ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPADMIN} git clone https://github.com/Unklebens/deploy_ic_webapp.git
                                 ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPADMIN} ansible-galaxy install -r ./deploy_ic_webapp/role/requirements.yml --force
-                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPADMIN} ansible-playbook ./deploy_ic_webapp/ic-webapp.yml -e odoo_url=${IPPUBLICODOO} -e pgadmin_url=${IPPUBLICADMIN}
+                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPADMIN} ansible-playbook ./deploy_ic_webapp/ic-webapp.yml -e odoo_url=${IPPUBLICODOO} -e pgadmin_url=${IPPUBLICADMIN}:8080
 
                                 ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPADMIN} rm -rf deploy_pgadmin4 || true
                                 ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPADMIN} git clone https://github.com/Unklebens/deploy_pgadmin4.git
