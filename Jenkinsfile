@@ -63,8 +63,9 @@ pipeline {
                    '''
                }
            }
+       }
 
-       }stage ('Git Clone terraform script files') {
+       stage ('Git Clone terraform script files') {
            agent any
            steps {
                script{
