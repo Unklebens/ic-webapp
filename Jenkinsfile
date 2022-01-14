@@ -86,7 +86,7 @@ pipeline {
                        cd Terraform_Projet_Final/app
                        terraform init
                        terraform apply --auto-approve
-                       sleep 20
+                       sleep 45
                        
                    '''
                }
@@ -105,6 +105,7 @@ pipeline {
                         script{ 
 
                             sh'''
+                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPODOO} sudo apt update -y
                                 ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPODOO} sudo apt install ansible git -y
                                 ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPODOO} rm -rf deploy_odoo || true
                                 ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPODOO} git clone https://github.com/Unklebens/deploy_odoo.git
@@ -131,6 +132,7 @@ pipeline {
                         script{ 
 
                             sh'''
+                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPADMIN} sudo apt update -y
                                 ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPADMIN} sudo apt install ansible git -y
                                 ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPADMIN} rm -rf deploy_ic_webapp || true
                                 ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPADMIN} git clone https://github.com/Unklebens/deploy_ic_webapp.git
