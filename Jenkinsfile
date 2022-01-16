@@ -165,5 +165,24 @@ pipeline {
                }
            }
        }
+
+       stage('deploiement kub') {
+            agent any
+            steps{
+                withCredentials([sshUserPrivateKey(credentialsId: "SSHCredentials", keyFileVariable: 'keyfile', usernameVariable: 'NUSER')]) {
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                        script{ 
+
+                            sh'''
+                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@172.31.89.36 rm -rf kubernetes-wordpress-test || true
+                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@$172.31.89.36 git clone https://github.com/Unklebens/kubernetes-wordpress-test.git
+                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@$172.31.89.36 cd kubernetes-wordpress-test
+                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@$172.31.89.36 kubectl apply -f .
+                            '''
+                        }
+                    }
+                }
+            }
+        }
     }
 }
