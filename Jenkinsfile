@@ -176,8 +176,7 @@ pipeline {
                             sh'''
                                 ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@172.31.89.36 rm -rf kubernetes-wordpress-test || true
                                 ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@172.31.89.36 git clone https://github.com/Unklebens/kubernetes-wordpress-test.git
-                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@172.31.89.36 cd kubernetes-wordpress-test
-                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@172.31.89.36 kubectl apply -f .
+                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@172.31.89.36 kubectl apply -f ./kubernetes-wordpress-test/onefile.yaml
                             '''
                         }
                     }
