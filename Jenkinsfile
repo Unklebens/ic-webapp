@@ -7,6 +7,7 @@ pipeline {
         IMAGE_TAG = "1.0"
         USERNAME = "itirenegad"
         CONTAINER_NAME = "test-ic-webapp"
+        IPPRODKUB = "172.31.81.22"
     }
 
     agent none
@@ -174,9 +175,9 @@ pipeline {
                         script{ 
 
                             sh'''
-                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@172.31.89.36 rm -rf kubernetes-wordpress-test || true
-                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@172.31.89.36 git clone https://github.com/Unklebens/kubernetes-wordpress-test.git
-                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@172.31.89.36 kubectl apply -f ./kubernetes-wordpress-test/onefile.yaml
+                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPPRODKUB} rm -rf gp2-k8s-prod || true
+                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPPRODKUB} git clone https://github.com/Unklebens/gp2-k8s-prod.git
+                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPPRODKUB} kubectl apply -k ./gp2-k8s-prod
                             '''
                         }
                     }
