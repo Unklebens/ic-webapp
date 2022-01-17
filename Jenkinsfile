@@ -170,7 +170,7 @@ pipeline {
        stage('deploiement kub') {
             agent any
             steps{
-                withCredentials([sshUserPrivateKey(credentialsId: "SSHCredentials", keyFileVariable: 'keyfile', usernameVariable: 'NUSER')]) {
+                withCredentials([sshUserPrivateKey(credentialsId: "prodsshcredentials", keyFileVariable: 'keyfile', usernameVariable: 'NUSER')]) {
                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                         script{ 
 
