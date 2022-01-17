@@ -29,7 +29,7 @@ pipeline {
                    sh '''
                        docker stop $CONTAINER_NAME || true
                        docker rm $CONTAINER_NAME || true
-                       docker run --name $CONTAINER_NAME -d -e "ODOO_URL=http://URL1.com" -e "PGADMIN_URL=http://URL2.com" -p 8888:80 $USERNAME/$IMAGE_NAME:$IMAGE_TAG
+                       docker run --name $CONTAINER_NAME -d -e "ODOO_URL=http://URL1.com" -e "PGADMIN_URL=http://URL2.com" -p 8888:8080 $USERNAME/$IMAGE_NAME:$IMAGE_TAG
                        sleep 5
                    '''
                }
@@ -137,7 +137,7 @@ pipeline {
                                 ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPADMIN} rm -rf deploy_ic_webapp || true
                                 ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPADMIN} git clone https://github.com/Unklebens/deploy_ic_webapp.git
                                 ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPADMIN} ansible-galaxy install -r ./deploy_ic_webapp/role/requirements.yml --force
-                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPADMIN} ansible-playbook ./deploy_ic_webapp/ic-webapp.yml -e odoo_url=http://${IPPUBLICODOO} -e pgadmin_url=http://${IPPUBLICADMIN}:8080
+                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPADMIN} ansible-playbook ./deploy_ic_webapp/ic-webapp.yml -e odoo_url=http://${IPPUBLICODOO} -e pgadmin_url=http://${IPPUBLICADMIN}:5050
 
                                 ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPADMIN} rm -rf deploy_pgadmin4 || true
                                 ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${IPADMIN} git clone https://github.com/Unklebens/deploy_pgadmin4.git
